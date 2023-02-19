@@ -41,8 +41,7 @@ def find_mismatch(text):
                 return i.position
         
 def main():
-    # text = input()
-    text = "(){}[]]}"
+    text = input()
     mismatch = find_mismatch(text)
     if(mismatch == False):
         print("Success")
