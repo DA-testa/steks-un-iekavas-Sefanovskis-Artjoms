@@ -15,25 +15,22 @@ def find_mismatch(text):
 
         if next in ")}]":
             if not opening_brackets_stack or not are_matching(opening_brackets_stack[-1].char,next):
-                return i
+                return i + 1
 
             else:
                 opening_brackets_stack.pop()
         
     if opening_brackets_stack:
-        return opening_brackets_stack[0].position
+        return opening_brackets_stack[0].position +1
 
     else:
-        return False
+        return "Success"
     
 def main():
     text = input()
     if text[0] == "I":
         mismatch = find_mismatch(text)
-        if(not mismatch):
-            print("Success")
-        else:
-            print(mismatch+1, end="")
+        print(mismatch)
 
 if __name__ == "__main__":
     main()
