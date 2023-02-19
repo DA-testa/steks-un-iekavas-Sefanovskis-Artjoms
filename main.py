@@ -28,8 +28,7 @@ def find_mismatch(text):
         return False
     
 def main():
-    # text = input()
-    text = "I\r\n[({])}"
+    text = input()
     mismatch = find_mismatch(text)
     if(not mismatch):
         print("Success")
