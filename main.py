@@ -38,7 +38,7 @@ def find_mismatch(text):
             brackCounter = roundBrack if i.char == "(" else squareBrack if i.char == "[" else curlyBrack
 
             if(i.char in "([{" and brackCounter > 0):
-                return i.position
+                return i.position +1
         
 def main():
     text = input()
