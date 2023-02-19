@@ -4,49 +4,37 @@ from collections import namedtuple
 
 Bracket = namedtuple("Bracket", ["char", "position"])
 
-
 def are_matching(left, right):
     return (left + right) in ["()", "[]", "{}"]
 
-
 def find_mismatch(text):
-    brackets_stack = []
-    counters = {'(': 0, ')': 0, '[': 0, ']': 0,'{': 0, '}': 0}
+    opening_brackets_stack = []
     for i, next in enumerate(text):
-        if next in "([{)]}":
-            bracket = Bracket(next,i)
-            brackets_stack.append(bracket)
-            counters[next] = counters[next] + 1
-    
-    roundBrack = counters["("] - counters[")"]
-    squareBrack = counters["["] - counters["]"]
-    curlyBrack = counters["{"] - counters["}"]
+        if next in "({[":
+            opening_brackets_stack.append(Bracket(next,i))
 
-    if roundBrack == 0 and squareBrack == 0 and curlyBrack == 0:
-        return False
+        if next in ")}]":
+            if not opening_brackets_stack or not are_matching(opening_brackets_stack[-1].char,next):
+                print(next,i)
+                return i
 
-    elif roundBrack < 0 or squareBrack < 0 or curlyBrack < 0:
-
-
-        for i in brackets_stack[::-1]:
-            brackCounter = roundBrack if i.char == ")" else squareBrack if i.char == "]" else curlyBrack
-
-            if(i.char in ")]}" and brackCounter < 0):
-                return i.position
-    else:
-        for i in brackets_stack:
-            brackCounter = roundBrack if i.char == "(" else squareBrack if i.char == "[" else curlyBrack
-
-            if(i.char in "([{" and brackCounter > 0):
-                return i.position +1
+            else:
+                opening_brackets_stack.pop()
         
+    if opening_brackets_stack:
+        return opening_brackets_stack[0].position
+
+    else:
+        return False
+    
 def main():
-    text = input()
+    # text = input()
+    text = "I\r\n[({])}"
     mismatch = find_mismatch(text)
-    if(mismatch == False):
+    if(not mismatch):
         print("Success")
     else:
-        print(mismatch, end="")
+        print(mismatch+1, end="")
 
 if __name__ == "__main__":
     main()
